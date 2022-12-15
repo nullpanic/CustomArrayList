@@ -17,7 +17,7 @@ public class CustomArrayList<E> implements List<E> {
     /**
      * Current array size
      */
-    public int size = 0;
+    private int size = 0;
     E[] array;
 
 
@@ -80,6 +80,11 @@ public class CustomArrayList<E> implements List<E> {
         if (isFull()) {
             increaseArrayRange();
         }
+
+        if (index > size) {
+            throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length " + array.length);
+        }
+
         System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = element;
         this.size++;
@@ -151,7 +156,7 @@ public class CustomArrayList<E> implements List<E> {
      */
     @Override
     public void sort(Comparator<? super E> c) {
-        Arrays.sort(array, 0, array.length - 1, c);
+        quicksort(array, 0, array.length - 1, c);
     }
 
     /**
@@ -161,12 +166,47 @@ public class CustomArrayList<E> implements List<E> {
      */
     @Override
     public int size() {
-        return array.length;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
         return array.length > 0;
+    }
+
+    private void quicksort(E[] sortArray, int start, int end, Comparator<? super E> c) {
+        if (start >= end) {
+            return;
+        }
+
+        int currentIndex = swapElements(sortArray, start, end, c);
+
+        quicksort(sortArray, start, currentIndex - 1, c);
+        quicksort(sortArray, currentIndex + 1, end, c);
+    }
+
+    private int swapElements(E[] sortArray, int start, int end, Comparator<? super E> c) {
+        E startElement = sortArray[end];
+
+        int currentIndex = start;
+
+        for (int i = start; i < end; i++) {
+
+            if (c.compare(sortArray[i], startElement) <= 0) {
+                swap(sortArray, i, currentIndex);
+                currentIndex++;
+            }
+        }
+
+        swap(sortArray, end, currentIndex);
+
+        return currentIndex;
+    }
+
+    private void swap(E[] swapArray, int i, int j) {
+        E temp = swapArray[i];
+        swapArray[i] = swapArray[j];
+        swapArray[j] = temp;
     }
 
     @Override
