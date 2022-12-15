@@ -1,13 +1,8 @@
-package dev.nullpanic.CustomArrayList;
+package dev.nullpanic.customarraylist;
 
-import dev.nullpanic.customarraylist.CustomArrayList;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
